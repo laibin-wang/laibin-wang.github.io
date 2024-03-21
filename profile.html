@@ -22,8 +22,6 @@ body.typora-export { padding-left: 30px; padding-right: 30px; }
 @media screen and (max-width: 500px) {
   body.typora-export { padding-left: 0px; padding-right: 0px; }
   #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
 }
 #write li > figure:last-child { margin-bottom: 0.5rem; }
 #write ol, #write ul { position: relative; }
@@ -51,7 +49,7 @@ sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inh
 #write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
 figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
 figure > table { margin: 0px; }
-tr { break-inside: avoid; break-after: auto; }
+thead, tr { break-inside: avoid; break-after: auto; }
 thead { display: table-header-group; }
 table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
 table.md-table td { min-width: 32px; }
@@ -73,6 +71,7 @@ div.hr:focus { cursor: none; }
 #write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
 .md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
 .CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
 .footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
 .footnotes + .footnotes { margin-top: 0px; }
 .md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
@@ -87,7 +86,7 @@ blockquote > :first-child, li > :first-child { margin-top: 0px; }
 #write .footnote-line { white-space: pre-wrap; }
 @media print {
   body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; padding-bottom: 0px !important; }
   .typora-export * { -webkit-print-color-adjust: exact; }
   .typora-export #write { break-after: avoid; }
   .typora-export #write::after { height: 0px; }
@@ -130,6 +129,7 @@ p > .md-image:only-child { display: inline-block; width: 100%; }
 }
 a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
 .footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
 .md-attr { display: none; }
 .md-fn-count::after { content: "."; }
 code, pre, samp, tt { font-family: var(--monospace); }
@@ -201,117 +201,121 @@ mark .md-meta { color: rgb(0, 0, 0); }
 .md-inline-math-container mjx-container { zoom: 0.95; }
 
 
+@include-when-export url(https://fonts.loli.net/css?family=Open+Sans:400italic,700italic,700,400&subset=latin,latin-ext);
+
+/* open-sans-regular - latin-ext_latin */
+
+/* open-sans-italic - latin-ext_latin */
+
+/* open-sans-700 - latin-ext_latin */
+
+/* open-sans-700italic - latin-ext_latin */
+
 :root {
-  --title-color: #8064a9;
-  --text-color: #444444;
-  --light-text-color: #666666;
-  --link-color: #2aa899;
-  --code-color: #745fb5;
-
-  --shadow-color: #eee;
-  --purple-light: rgba(116, 95, 181, 0.2);
-  --border: #e7e7e7;
-  --shadow: 3px 3px 10px var(--shadow-color);
-
-  --side-bar-bg-color: #fafafa;
-  --control-text-color: var(var(--light-text-color));
-  --active-file-text-color: var(--title-color);
-  --active-file-bg-color: var(--shadow-color);
-  --item-hover-bg-color: var(--shadow-color);
-  --active-file-border-color: var(var(--title-color));
-
-  --base-font: "Helvetica Neue", "Noto Sans", -apple-system, Ubuntu,
-    "Microsoft YaHei", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans",
-    "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC",
-    "Source Han Sans CN", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti",
-    SimHei, "WenQuanYi Zen Hei Sharp", "Source Sans Pro", sans-serif;
-  --title-font: "EB Garamond", Georgia, "Noto Serif", "Noto Serif CJK SC",
-    "Nimbus Roman No9 L", "Songti SC", "Source Han Serif SC",
-    "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun,
-    SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN",
-    "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU,
-    "Ubuntu", "Source Sans Pro", serif;
-  --monospace: "JetBrains Mono", "Fira Code", "Cascadia Code", "Sarasa Term SC",
-    Monaco, "Deja Vu Sans Mono", Consolas, "Lucida Console", "Andale Mono",
-    "Roboto Mono", Courier, Monospace !important;
+    --title-color: #8064a9;
+    --text-color: #444444;
+    --light-text-color: #666666;
+    --lighter-text-color: #888888;
+    --link-color: #2aa899;
+    --code-color: #745fb5;
+    --shadow-color: #eee;
+    --border-quote: rgba(116, 95, 181, 0.2);
+    --border-quote-grey: #c8c8c8;
+    --border: #e7e7e7;
+    --link-bottom: #bbb;
+    --shadow: 3px 3px 10px var(--shadow-color);
+    --inline-code-bg: #f4f2f9;
+    --header-weight: normal;
+    --side-bar-bg-color: #fafafa;
+    --control-text-color: var(var(--light-text-color));
+    --active-file-text-color: var(--title-color);
+    --active-file-bg-color: var(--shadow-color);
+    --item-hover-bg-color: var(--shadow-color);
+    --active-file-border-color: var(var(--title-color));
+    --base-font: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --title-font: "EB Garamond", "Source Sans Pro", serif;
+    --monospace: Courier, Monospace !important;
 }
 
+
 /* 打印 */
+
 @media print {
-  html {
-    font-size: 0.9rem;
-  }
-
-  table,
-  pre {
-    page-break-inside: avoid;
-  }
-
-  pre {
-    word-wrap: break-word;
-  }
-  #write {
-    max-width: 100%;
-  }
-  @page {
-    size: A3; /* PDF output size */
-    margin-left: 0;
-    margin-right: 0;
-  }
+    html {
+        font-size: 0.9rem;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+    #write {
+        max-width: 100%;
+    }
+    @page {
+        size: A3;
+        /* PDF output size */
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-rendering: optimizelegibility;
-  -webkit-font-smoothing: initial;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: initial;
 }
 
 body {
-  color: var(--text-color);
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.6rem;
-  letter-spacing: 0;
-  overflow-x: hidden;
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    letter-spacing: 0;
+    overflow-x: hidden;
 }
 
+
 /* 页边距 和 页面大小 */
+
 #write {
-  font-family: var(--base-font);
-  /* max-width: 914px; */
-  margin: 0 auto;
-  padding: 1rem 4rem;
-  padding-bottom: 100px;
+    font-family: var(--base-font);
+    /* max-width: 914px; */
+    margin: 0 auto;
+    padding: 1rem 4rem;
+    padding-bottom: 100px;
 }
 
 #write p {
-  line-height: 1.6rem;
-  word-spacing: 0.05rem;
+    line-height: 1.6rem;
+    word-spacing: 0.05rem;
 }
 
-body > *:first-child {
-  margin-top: 0 !important;
+body>*:first-child {
+    margin-top: 0 !important;
 }
 
-body > *:last-child {
-  margin-bottom: 0 !important;
+body>*:last-child {
+    margin-bottom: 0 !important;
 }
+
+
+/* Link 链接 */
 
 a {
-  color: var(--link-color);
-  text-decoration: none;
+    color: var(--link-color);
+    text-decoration: none;
 }
+
 #write a {
-  border-bottom: none;
+    border-bottom: 1px solid var(--link-bottom);
 }
-#write a:hover {
-  border-bottom: 1px solid var(--link-color);
-  color: var(--link-color);
-  text-decoration: none;
-}
+
 .md-content {
-  color: var(--light-text-color);
+    color: var(--light-text-color);
 }
 
 h1,
@@ -320,47 +324,60 @@ h3,
 h4,
 h5,
 h6 {
-  position: relative;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-weight: normal;
-  line-height: 1.3;
-  cursor: text;
-  color: var(--title-color);
-  font-family: var(--title-font);
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: var(--header-weight);
+    line-height: 1.3;
+    cursor: text;
+    color: var(--title-color);
+    font-family: var(--title-font);
 }
 
 h1 {
-  text-align: center;
-  font-size: 2.25em;
-  margin-bottom: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.5;
 }
+
 h1:after {
-  content: "";
-  display: block;
-  margin: 0.2em auto 0;
-  width: 6rem;
-  height: 2px;
-  border-bottom: 2px solid var(--title-color);
+    content: "";
+    display: block;
+    margin: 0.2rem auto 0;
+    width: 6rem;
+    height: 2px;
+    border-bottom: 2px solid var(--title-color);
 }
 
 h2 {
-  padding-left: 0.4em;
-  font-size: 1.75em;
-  border-left: 0.4em solid var(--title-color);
-  border-bottom: 1px solid var(--title-color);
+    padding-left: 0.4em;
+    border-left: 0.4em solid var(--title-color);
+    border-bottom: 1px solid var(--title-color);
 }
-h3 {
-  font-size: 1.5em;
+
+h1 tt,
+h1 code {
+    font-size: inherit;
 }
-h4 {
-  font-size: 1.3em;
+h2 tt,
+h2 code {
+    font-size: inherit;
 }
-h5 {
-  font-size: 1.2em;
+h3 tt,
+h3 code {
+    font-size: inherit;
 }
-h6 {
-  font-size: 1.1em;
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+    font-size: inherit;
 }
 
 p,
@@ -369,333 +386,469 @@ ul,
 ol,
 dl,
 table {
-  margin: 0.8em 0;
+    margin: 0.8em 0;
 }
+
 
 /* horizontal rule */
+
 hr {
-  margin: 1.5em auto;
-  border-top: 1px solid var(--border);
+    margin: 1.5em auto;
+    border-top: 1px solid var(--border);
 }
 
+
 /* 列表 */
-li > ol,
-li > ul {
-  margin: 0 0;
+
+li>ol,
+li>ul {
+    margin: 0 0;
 }
 
 li p.first {
-  display: inline-block;
+    display: inline-block;
 }
 
 ul,
 ol {
-  padding-left: 2rem;
+    padding-left: 2rem;
 }
 
 ul:first-child,
 ol:first-child {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 ul:last-child,
 ol:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 #write ol li,
 ul li {
-  padding-left: 0.1rem;
+    padding-left: 0.1rem;
 }
+
 
 /* 引用 */
+
 blockquote {
-  border-left: 0.2em solid var(--purple-light);
-  padding-left: 1em;
-  color: var(--light-text-color);
-  font-family: var(--base-font);
+    border-left: 0.3rem solid var(--border-quote);
+    padding-left: 1em;
+    font-family: var(--base-font);
 }
+
 
 /* 表格 */
+
 table {
-  margin-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
 }
+
 table th,
 table td {
-  padding: 8px;
-  line-height: 1.25rem;
-  vertical-align: middle;
-  border: 1px solid #ddd;
+    padding: 8px;
+    line-height: 1.25rem;
+    vertical-align: middle;
+    border: 1px solid #ddd;
 }
+
 table th {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 table thead th {
-  vertical-align: middle;
+    vertical-align: middle;
 }
+
 table tr:nth-child(2n),
 thead {
-  background-color: #fcfcfc;
+    background-color: #fcfcfc;
 }
+
 
 /* 粗体 */
+
 #write strong {
-  padding: 0 2px;
-  font-weight: bold;
+    padding: 0 2px;
+    font-weight: bold;
 }
 
+
 /* inline code */
-#write code,
+code,
 tt {
-  padding: 2px 4px;
-  border-radius: 0.3rem;
-  font-family: var(--monospace);
-  font-size: 0.9rem;
-  color: var(--code-color);
-  background-color: #f4f2f9;
-  margin: 0 2px;
+    padding: 2px 4px;
+    border-radius: 0.3rem;
+    font-family: var(--monospace);
+    font-size: 0.9rem;
+    color: var(--code-color);
+    background-color: var(--inline-code-bg);
+    margin: 0 2px;
 }
 
 #write .md-footnote {
-  color: var(--code-color);
-  background-color: #f4f2f9;
+    color: var(--code-color);
+    background-color: var(--inline-code-bg);
 }
 
+
 /* highlight. */
+
 #write mark {
-  background-color: #f9f2f4;
-  border-radius: 0.3rem;
-  padding: 2px 4px;
-  margin: 0 2px;
-  color: #c7254e;
+    background: rgb(255, 255, 196);
+    color: var(--text-color);
 }
 
 #write del {
-  padding: 1px 2px;
+    padding: 1px 2px;
 }
 
-.md-task-list-item > input {
-  margin-left: -1.3em;
+.md-task-list-item>input {
+    margin-left: -1.3em;
 }
 
 #write pre.md-meta-block {
-  padding: 1rem;
-  font-size: 85%;
-  line-height: 1.45;
-  background-color: #f7f7f7;
-  border: 0;
-  border-radius: 3px;
-  color: #777777;
-  margin-top: 0 !important;
+    padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
 }
 
-.mathjax-block > .code-tooltip {
-  bottom: 0.375rem;
+.mathjax-block>.code-tooltip {
+    bottom: 0.375rem;
 }
+
 
 /* 图片 */
-.md-image > .md-meta {
-  border-radius: 3px;
-  font-family: var(--monospace);
-  padding: 2px 0 0 4px;
-  font-size: 0.9em;
-  color: inherit;
+
+.md-image>.md-meta {
+    border-radius: 3px;
+    font-family: var(--monospace);
+    padding: 2px 0 0 4px;
+    font-size: 0.9em;
+    color: inherit;
 }
+
+
 /* 图片靠左显示 */
+
+
 /* p .md-image:only-child {
   width: auto;
   text-align: left;
   margin-left: 2rem;
 } */
 
+
 /* 写![shadow-...]() 显示图片阴影 */
+
 img[alt|="shadow"] {
-  box-shadow: var(--shadow);
+    box-shadow: var(--shadow);
 }
 
+
+/* TOC */
+
 #write a.md-toc-inner {
-  line-height: 1.6;
-  white-space: pre-line;
-  border-bottom: none;
-  font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-line;
+    border-bottom: none;
+    color: var(--light-text-color);
+    font-size: 0.9rem;
+}
+
+.md-toc-h1 .md-toc-inner {
+    margin-left: 0;
+    font-weight: normal;
 }
 
 header,
 .context-menu,
 .megamenu-content,
 footer {
-  font-family: var(--base-font);
+    font-family: var(--base-font);
 }
 
 .file-node-content:hover .file-node-icon,
 .file-node-content:hover .file-node-open-state {
-  visibility: visible;
+    visibility: visible;
 }
 
 .md-lang {
-  color: #b4654d;
+    color: #b4654d;
 }
 
 .html-for-mac .context-menu {
-  --item-hover-bg-color: #e6f0fe;
+    --item-hover-bg-color: #e6f0fe;
 }
 
-/* border and bg */
+
+/* Code fences */
+
+
+/* border, bg, font */
+
 .md-fences {
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: #fdfdfd !important;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: #fdfdfd !important;
+    font-size: 0.9rem;
 }
+
+
 /* 代码框阴影 */
-#write pre.md-fences {
+
+
+/* #write pre.md-fences {
   display: block;
   -webkit-overflow-scrolling: touch;
   box-shadow: var(--shadow);
+} */
+
+.cm-s-inner .cm-variable {
+    color: var(--text-color);
 }
 
 .cm-s-inner {
-  padding: 0.25rem;
-  border-radius: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
 }
 
 .cm-s-inner.CodeMirror,
 .cm-s-inner .CodeMirror-gutters {
-  color: #3a3432 !important;
-  border: none;
+    color: #3a3432 !important;
+    border: none;
 }
 
 .cm-s-inner .CodeMirror-gutters {
-  color: #6d8a88;
+    color: #6d8a88;
 }
 
 .cm-s-inner .CodeMirror-linenumber {
-  padding: 0 0.1rem 0 0.3rem;
-  color: #b8b5b4;
+    padding: 0 0.1rem 0 0.3rem;
+    color: #b8b5b4;
 }
 
 .cm-s-inner .CodeMirror-matchingbracket {
-  text-decoration: underline;
-  color: #a34e8f !important;
+    text-decoration: underline;
+    color: #a34e8f !important;
 }
 
 #fences-auto-suggest .active {
-  background: #ddd;
+    background: #ddd;
 }
 
 .cm-s-inner span.cm-comment {
-  color: #9daab6;
-}
-.cm-s-inner span.cm-builtin {
-  color: #0451a5;
+    color: #9daab6;
 }
 
+.cm-s-inner span.cm-builtin {
+    color: #0451a5;
+}
+
+
 /* language tip */
+
 #write .code-tooltip {
-  border: 1px solid var(--border);
+    border: 1px solid var(--border);
 }
 
 .auto-suggest-container {
-  border-color: #b4b4b4;
+    border-color: #b4b4b4;
 }
 
 .auto-suggest-container .autoComplt-hint.active {
-  background: #b4b4b4;
-  color: inherit;
+    background: #b4b4b4;
+    color: inherit;
 }
+
 
 /* task list */
-#write .md-task-list-item > input {
-  -webkit-appearance: initial;
-  display: block;
-  position: absolute;
-  border: 1px solid #b4b4b4;
-  border-radius: 0.2rem;
-  margin-top: 0.3rem;
-  height: 1rem;
-  width: 1rem;
-  transition: background 0.3s;
+
+#write .md-task-list-item>input {
+    -webkit-appearance: initial;
+    display: block;
+    position: absolute;
+    border: 1px solid #b4b4b4;
+    border-radius: 0.2rem;
+    margin-top: 0.3rem;
+    height: 1rem;
+    width: 1rem;
+    transition: background 0.3s;
 }
 
-#write .md-task-list-item > input:focus {
-  outline: none;
-  box-shadow: none;
+#write .md-task-list-item>input:focus {
+    outline: none;
+    box-shadow: none;
 }
 
-#write .md-task-list-item > input:hover {
-  background: #ddd;
+#write .md-task-list-item>input:hover {
+    background: #ddd;
 }
 
-#write .md-task-list-item > input[checked]::before {
-  content: "";
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  height: 60%;
-  width: 2px;
-  transform: rotate(40deg);
-  background: #333;
+#write .md-task-list-item>input[checked]::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    height: 60%;
+    width: 2px;
+    transform: rotate(40deg);
+    background: #333;
 }
 
-#write .md-task-list-item > input[checked]::after {
-  content: "";
-  position: absolute;
-  top: 46%;
-  left: 25%;
-  height: 30%;
-  width: 2px;
-  transform: rotate(-40deg);
-  background: #333;
+#write .md-task-list-item>input[checked]::after {
+    content: "";
+    position: absolute;
+    top: 46%;
+    left: 25%;
+    height: 30%;
+    width: 2px;
+    transform: rotate(-40deg);
+    background: #333;
 }
 
-#write .md-task-list-item > p {
-  transition: color 0.3s, opacity 0.3s;
+#write .md-task-list-item>p {
+    transition: color 0.3s, opacity 0.3s;
 }
 
-#write .md-task-list-item.task-list-done > p {
-  color: #b4b4b4;
-  text-decoration: line-through;
+#write .md-task-list-item.task-list-done>p {
+    color: #b4b4b4;
+    text-decoration: line-through;
 }
 
-#write .md-task-list-item.task-list-done > p > .md-emoji {
-  opacity: 0.5;
+#write .md-task-list-item.task-list-done>p>.md-emoji {
+    opacity: 0.5;
 }
 
-#write .md-task-list-item.task-list-done > p > .md-link > a {
-  opacity: 0.6;
+#write .md-task-list-item.task-list-done>p>.md-link>a {
+    opacity: 0.6;
 }
+
 
 /* sidebar */
+
 #typora-sidebar,
 .typora-node #typora-sidebar {
-  box-shadow: 3px 0px 10px var(--shadow-color);
-}
-.sidebar-content-content {
-  font-size: 0.9rem;
+    box-shadow: 3px 0px 10px var(--shadow-color);
 }
 
+.sidebar-content-content {
+    font-size: 0.9rem;
+}@import "";
+
+:root {
+  --base-font: Consolas , "Ubuntu Mono", "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --title-font: var(--base-font);
+  --monospace: "Ubuntu Mono", Courier, Monospace !important;
+}
+
+/* Cesno style start */
+
+.cm-s-inner .cm-variable      {color: #f39800;}
+
+.cm-s-inner .cm-variable-3    {color: #9ed44c; font-weight: bold;}
+
+.cm-s-inner .cm-number        {color: #e95295;}
+
+.cm-s-inner .cm-keyword       {color: #bc64a4; font-weight: bold;}
+
+.cm-s-inner .cm-def           {color: #0094c8;}
+
+.cm-s-inner .cm-operator      {color: #a59aca; font-weight: bold;}
+
+/* .cm-s-inner .cm-atom          {color: #c5c56a; font-weight: bold;} */
+
+/* Cesno style end */
 
 
 </style><title>简历</title>
 </head>
 <body class='typora-export os-windows'><div class='typora-export-content'>
 <div id='write'  class=''><h1 id='简历'><span>简历</span></h1><div style="display:flex;align-items: center;">
-  <div style="width:300px;">
+  <div style="width:305px;">
     <div style="font-size:2.25em;color:var(--title-color);font-family:var(--title-font);line-height:40px;">王来彬</div>
-    <div>应聘岗位：Leader、Web开发相关岗位</div>
+    <div>应聘岗位：Web开发/管理相关岗位</div>
   </div>
   <div style="width:300px;">
     <div><span style="letter-spacing:4px;">电话：</span>15851431160</div>
     <div><span style="letter-spacing:4px;">邮箱：</span>yourswanglaibin@126.com</div>
     <div><span style="letter-spacing:4px;">微信：</span>196903849</div>
-    <div><span style="letter-spacing:4px;">学历：</span>大专(正在自考本科)</div>
+    <div><span style="letter-spacing:4px;">学历：</span>大专、本科(自考)</div>
     <div><span style="letter-spacing:4px;">薪资：</span>面议</div>
   </div>
   <div style="flex:1;">
-    <div><span style="letter-spacing:4px;">工作年限：</span>8 年</div>
-    <div><span style="letter-spacing:4px;">工作地点：</span>苏州</div>
-    <div><span style="letter-spacing:4px;">技术博客：</span><a href="https://wanglaibin.blog.csdn.net">https://wanglaibin.blog.csdn.net</a></div>
-    <div><span style="letter-spacing:4.75px;">Github：</span><a href="https://github.com/laibin-wang">https://github.com/laibin-wang</a></div>
-    <div><span style="letter-spacing:4px;">个人空间：</span><a href="https://laibin-wang.github.io">https://laibin-wang.github.io</a></div>
-  </div></div><hr /><h1 id='工作履历'><span>工作履历</span></h1><h2 id='上海观安信息技术股份有限公司-2017年10月--至今-'><span>上海观安信息技术股份有限公司 (2017年10月 ~ 至今 )</span></h2><h3 id='数据安全产品前端uiue负责人'><span>数据安全产品前端UI&amp;UE负责人</span></h3><p><span>   在上海观安信息公司数据安全产品部担任前端UI&amp;UE负责人期间，负责本部部门</span><code>团队建设</code><span>、</span><code>技术储备</code><span>、</span><code>考核</code><span>、</span><code>培养</code><span>、</span><code>带教</code><span>、</span><code>招聘</code><span>等，由前端的</span><code>3个人</code><span>发展到现在的</span><code>12个人</code><span>，产品线有之前的</span><code>2条产品线</code><span>发展到现在</span><code>5条产品线</code><span>，以及到后来实行</span><code>OKR</code><span>的形式进行汇报和管理团队方式；而在任职期间主要从以下几个方面做了入手:</span></p><ul><li><span>熟悉团队技术体系（没有任何体系，技术落后，很随意，基本就是</span><code>JQuery</code><span>的大乱炖）</span></li><li><span>熟悉研发和支撑模式（支撑研发压力大、效率低下）</span></li><li><span>熟悉团队每个人的技能水平（技能水平比较低下）、特点、性格等</span></li><li><span>....</span></li></ul><p><span>   为了改变团队的现有的情况，我定义一系列的</span><code>开发规范</code><span>、构建立适应于数据安全产品前端的</span><code>技术体系</code><span>，来提高人员的</span><code>技术能力</code><span>等；抛弃之前的乱炖时代，引入</span><code>新的技术(vue)</code><span>，使之为后期</span><code>迭代</code><span>、</span><code>研发提高效率和支撑</code><span>，主要围绕</span><code>vue2.*</code><span>、</span><code>vue-router</code><span>、</span><code>element-ui</code><span>、</span><code>websocket</code><span>、</span><code>echarts</code><span>、</span><code>微前端</code><span>、</span><code>Nodejs</code><span>、</span><code>Webpack</code><span>、</span><code>rollup</code><span>、</span><code>gulp</code><span>、</span><code>Jest</code><span>、</span><code>husky</code><span>、</span><code>Inquirer</code><span>、</span><code>Nginx</code><span>等建立如下体系:</span></p><ul><li><span>统一开发规范[</span><code>html</code><span>、</span><code>css</code><span>、</span><code>js</code><span>、</span><code>vue</code><span>、</span><code>api</code><span>等规范的文档以及验证和</span><code>IDE</code><span>的统一]</span></li><li><span>统一</span><code>UI规范</code><span>[颜色、交互等]之后建立</span><code>基础UI组件库</code></li><li><code>图表基础库</code><span>（基于</span><code>echarts</code><span>二次封装，一份数据生成多种图表,配置高效简洁）</span></li><li><span>产品线基础</span><code>业务组件库</code></li><li><span>产品线基础</span><code>工具库</code></li><li><span>大屏生成工具[</span><code>lowcode</code><span>]</span></li><li><code>脚手架</code><span>统一[</span><code>GUI</code><span>]</span></li><li><span>版本管理+自动发布</span></li><li><span>建立</span><code>mock serve</code><span>系统（为前期后端没有</span><code>api</code><span>的情况下，同时开发，也为后面投标</span><code>poc</code><span>、演示的情况下脱离后端独立运行提供数据支撑）</span></li><li><span>构建</span><code>npm</code><span>私服，便于内部维护升级以及快速迭代管理</span></li><li><span>文档平台建设</span><code>markdown</code></li><li><span>产线各自相互代码</span><code>Code Review</code></li><li><span>周会分享和项目问题讨论</span></li><li><span>技术调研和储备</span></li><li><span>....</span></li></ul><h2 id='盟拓软件苏州有限公司--2014年7月--2017年9月-'><span>盟拓软件(苏州)有限公司  (2014年7月 ~ 2017年9月 )</span></h2><h3 id='电商e-commerce'><span>电商E-Commerce</span></h3><p><span>　　在盟拓软件的电商部门(E-Commerce)负责</span><code>web端</code><span>和</span><code>移动端</code><span>的框架搭建，功能开发、任务分配和性能优化；在此期间跟后端的高效合作，完成了</span><code>商品详情的模板静态化</code><span>、</span><code>商品列表静态化</code><span>、</span><code>首页静态化</code><span>在管理系统中进行配置和生成，使在</span><code>web端</code><span>和</span><code>移动端</code><span>能够</span><code>快速打开界面和效果</code><span>，从而提高用户</span><code>购物体验</code><span>。后面移动端平台购物直播的引入第三平台的二次开发,克服</span><code>实时弹幕</code><span>和</span><code>自定义表情包</code><span>问题；在此期间用的技术栈：</span><code>freemarker</code><span>、</span><code>jsp</code><span>、</span><code>JQuery</code><span>、</span><code>light7</code><span>、</span><code>bootstrap V3</code><span>、</span><code>svg</code><span>、</span><code>jQuery Mobile</code><span>等</span></p><h2 id='联鹏应用软件上海有限公司--2012年11月--2014年6月-'><span>联鹏应用软件(上海)有限公司  (2012年11月 ~ 2014年6月 )</span></h2><h3 id='开发部'><span>开发部</span></h3><p><span>　　我在联鹏应用的开发部门主要负责</span><code>微信公众号</code><span>的平台开发，主要对象是高校、基金公司；</span><code>微信公众号</code><span>管理平台的开发、</span><code>window服务</code><span>开发、</span><code>jquery插件</code><span>的开发、产品</span><code>安装包</code><span>制作、推广的</span><code>H5</code><span>、</span><code>微信端</code><span>小游戏和活动的简单中奖算法设计和开发；在此期间用的技术栈：</span><code>.net</code><span>、</span><code>C#</code><span>、</span><code>aps.net</code><span>、</span><code>JQuery</code><span>、</span><code>SQL Server 2008</code><span>、</span><code>oracle</code><span>、</span><code>bootstrap</code><span>等</span></p><hr /><h1 id='项目经验'><span>项目经验</span></h1><h2 id='上海观安信息技术股份有限公司'><span>上海观安信息技术股份有限公司</span></h2><h3 id='流转检测管理系统'><span>流转检测管理系统</span></h3><p><span>　   此项目属于今年新研发的项目，负责</span><code>核心功能</code><span>的开发，</span><code>需求的设计评审</code><span>，</span><code>api设计</code><span>，其中包括</span><code>框架的搭建</code><span>、</span><code>公共组件的提取</code><span>、</span><code>复杂组件</code><span>的编写。四种</span><code>画像的页面</code><span>开发和设计[</span><code>http</code><span>，</span><code>file</code><span>，</span><code>email</code><span>，</span><code>数据库</code><span>]、</span><code>流量流转轨迹</code><span>界面、</span><code>全文检索</code><span>、</span><code>关键字和敏感数据高亮</code><span>等核心功能</span></p><h3 id='数据安全态势ueba'><span>数据安全态势UEBA</span></h3><p><span>　　我在此项目负责</span><code>部分核心功能</code><span>的开发；</span><code>高级策略配置</code><span>，</span><code>基线配置</code><span>，</span><code>算法和前后交互和数据规范</code><span>，其中策</span><code>略规则可配置化</code><span>、</span><code>模板化</code><span>等形成</span><code>可拖拽的tree的规则树</code><span>和</span><code>引导式的配置</code><span>以及</span><code>大屏组件</code><span>和</span><code>地图</code><span>的开发。</span></p><h3 id='数据安全管控平台'><span>数据安全管控平台</span></h3><p><span>　　我在此项目负责</span><code>部分核心功能</code><span>的开发；该项目主要用到</span><code>微前端</code><span>技术，把各个产品当作一个</span><code>子APP</code><span>，将</span><code>应用微件化</code><span>，集成到所搭建</span><code>微前端的</code><span>主框架上，形成了平台级别的项目，实现视觉和交互上的统一，在此项目上对</span><code>微前端</code><span>技术有一定的研究，也对看过第三的</span><code>微前端</code><span>实现，比如</span><code>icestark(飞冰)</code><span>、</span><code>Qiankun(乾坤)</code><span>、</span><code>micro-zoe(京东)</code><span>、</span><code>EMP(YY业务中台)</code><span>等。</span></p><h3 id='堡垒机'><span>堡垒机</span></h3><p><span>　　我在此项目负责</span><code>核心功能</code><span>的开发；其中包括</span><code>框架的搭建</code><span>、</span><code>公共组件的提取</code><span>、</span><code>复杂组件</code><span>的编写；基于</span><code>Guacamole</code><span>实现</span><code>rdp</code><span>和</span><code>ssh</code><span>的</span><code>web运维功能</code><span>、基于</span><code>Xtrem</code><span>实现了</span><code>字符回放</code><span>功能、基于</span><code>Guacamole</code><span>实现</span><code>图形回放</code><span>功能等开发</span></p><h3 id='数据库安全审计系统'><span>数据库安全审计系统</span></h3><p><span>　　我在此项目负责</span><code>核心功能</code><span>的开发，其中包括</span><code>框架的搭建</code><span>、</span><code>公共组件的提取</code><span>、</span><code>复杂组件的编写</code><span>。</span><code>定制和内置报表</code><span>、</span><code>三权分立</code><span>、</span><code>日志列表定制和报表</code><span>切换设计等</span></p><h3 id='静态脱敏系统'><span>静态脱敏系统</span></h3><p><span>　　我在此项目负责</span><code>核心功能</code><span>的开发，其中包括</span><code>框架的搭建</code><span>、</span><code>公共组件的提取</code><span>、</span><code>复杂组件的编写</code><span>以及</span><code>带教</code><span>和上手是适应新的技术；</span><code>E-R关系图</code><span>的实现、各种</span><code>数据库资产的交互和设计</code><span>、</span><code>三权分立</code><span>、</span><code>大数据列表</code><span>处理,以及后面</span><code>性能优化</code><span>处理等</span></p><h3 id='其他项目-1'><span>其他项目</span></h3><p><span>　　其中还有</span><code>明镜项目[数据攻防]</code><span>，</span><code>魅影[蜜罐，沙盒]</code><span>，</span><code>动态脱敏</code><span>、</span><code>硬件一体化</code><span>、</span><code>web动态</code><span>等等各种大型项目经验</span></p><h2 id='盟拓软件苏州有限公司'><span>盟拓软件(苏州)有限公司</span></h2><h3 id='万科协作互联系统'><span>万科协作互联系统</span></h3><p><span>　   此项目属于</span><code>万科集团</code><span>下的一个</span><code>房地产任务系统</code><span>项目，负责</span><code>微网站框架</code><span>的建立，</span><code>web端</code><span>公共功能模块的封装；实现了基于</span><code>svg</code><span>封装的</span><code>任务节点流程时序图</code><span>、</span><code>地铁线路图</code><span>等系统的开发</span></p><h3 id='parkson商城百盛-电商平台项目'><span>Parkson商城(百盛-电商平台项目)</span></h3><p><span>　   此项目属于</span><code>金狮集团</code><span>下的一个</span><code>百货商城系统(shopxx)</code><span>项目，负责</span><code>微网站框架</code><span>的建立，</span><code>web端</code><span>公共功能模块的封装；实现了基于后端管理系统进行配置</span><code>商品详情的模板静态化</code><span>、</span><code>商品列表静态化</code><span>、</span><code>首页静态化</code><span>的模板提高</span><code>web端</code><span>和</span><code>移动端</code><span>的页面打开速度。</span></p><h3 id='其他项目-2'><span>其他项目</span></h3><p><span>　　其中还有</span><code>HYM Group(恒大农牧商城-电商)</code><span>，</span><code>祈福</code><span>等等各种大型项目经验</span></p><h2 id='联鹏应用软件上海有限公司'><span>联鹏应用软件(上海)有限公司</span></h2><h3 id='富国app'><span>富国APP</span></h3><p><span>　   此项目属于</span><code>富国基金</code><span>下的一个</span><code>材料系统</code><span>项目，负责项目的</span><code>开发</code><span>和</span><code>指导</code><span>，对项目</span><code>微信端</code><span>营销材料模块的改善，</span><code>后台核心代码</code><span>和</span><code>pad端报表</code><span>的统计和导出。</span></p><h3 id='钱滚滚社区'><span>钱滚滚社区</span></h3><p><span>　   此项目属于</span><code>中欧财富</code><span>下的一个</span><code>社区</code><span>项目，负责</span><code>网站框架</code><span>、</span><code>数据库</code><span>的建立</span><code>微信平台接口</code><span>的接口对接以及</span><code>web端</code><span>公共功能模块的封装；实现了</span><code>路演</code><span>(支持人，嘉宾，观众--对某个话题进行交流）,</span><code>问答</code><span>(对某人提出的问题进行回答、点赞、评论等)，</span><code>PK</code><span>(对某个知识进行PK)，以及</span><code>抽奖</code><span>，一共有2个版本（分别是微信端和PC端）以及后台。。</span></p><h3 id='中欧微信项目'><span>中欧微信项目</span></h3><p><span>　   此项目属于</span><code>中欧财富</code><span>下的一个</span><code>微信公众号平台</code><span>维护的项目，负责</span><code>项目的移植</code><span>，以及</span><code>任务的分配</code><span>，配合项目经理完成</span><code>核心代码</code><span>的编写；</span><code>指导</code><span>其他人员的技术问题以及和</span><code>安卓</code><span>上接口的对接，</span><code>微信活动</code><span>的开发(</span><code>微信端</code><span>活动定制)。</span></p><h3 id='其他项目-3'><span>其他项目</span></h3><p><span>　　其中还有</span><code>富国微信项目</code><span>，</span><code>上海旅专会展管理系统</code><span>等等各种大型项目经验</span></p><hr /><h1 id='开源项目和作品'><span>开源项目和作品</span></h1><h2 id='开源项目'><span>开源项目</span></h2><ul><li><a href='https://github.com/laibin-wang/socket-heart'><span>socket-heart</span></a><span>：</span><code>WebSocket</code><span>是基于原生的基础上扩展的心跳和重连机制进行一次封装的，是基于</span><code>ES6 class</code><span>的方式,心跳机制单独抽离，可以引用。已发布到</span><code>npm</code><span>。</span></li><li><a href='https://github.com/laibin-wang/aurora-ui'><span>aurora-ui</span></a><span>：基于 </span><code>vue2.6</code><span> 、</span><code>vue-cli4</code><span> 的 </span><code>UI 组件库</code><span>和</span><code>组件文档库(markdown)</code><span>框架</span></li><li><span>...</span></li></ul><h2 id='技术文章'><span>技术文章</span></h2><ul><li><a href='https://wanglaibin.blog.csdn.net/article/details/120064213'><span>Rollup 打包通用项目工程库[非TS]，工程化之路</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/100527780'><span>前端微服务化研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/114486843'><span>基于md的UI组件文档库研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/108226139'><span>前端工程化研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/110957484'><span>我心中的前端工程化</span></a></li><li><span>...</span></li></ul><h2 id='内部分享'><span>内部分享</span></h2><ul><li><a href='https://wanglaibin.blog.csdn.net/article/details/107406123'><span>杂学前端</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/103602333'><span>研究</span><code>Javascript</code><span> 中的 </span><code>AST</code></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/100681942'><span>几分钟成Git高手</span></a></li><li><span>...</span></li></ul><p>&nbsp;</p><h1 id='致谢'><span>致谢</span></h1><p><span>感谢您花时间阅读我的简历，期待能有机会和您共事。</span></p><p>&nbsp;</p></div></div>
+    <div><span>工作年限：</span>近10年开发|6年管理经验</div>
+    <div><span>工作地点：</span>苏州</div>
+    <div><span>技术博客：</span><a href="https://wanglaibin.blog.csdn.net">https://wanglaibin.blog.csdn.net</a></div>
+    <div><span style="letter-spacing:2px;">Github：</span><a href="https://github.com/laibin-wang">https://github.com/laibin-wang</a></div>
+    <div><span>个人空间：</span><a href="https://wanglaibin.gitee.io">https://wanglaibin.gitee.io</a></div>
+  </div></div><p>&nbsp;</p><hr /><h1 id='工作履历'><span>工作履历</span></h1><h2 id='上海观安信息技术股份有限公司-2017年10月--至今-'><span>上海观安信息技术股份有限公司 (2017年10月 ~ 至今 )</span></h2><h3 id='数据安全产品前端uiue负责人'><span>数据安全产品前端UI&amp;UE负责人</span></h3><p><span>   在上海观安信息公司数据安全产品部担任前端UI&amp;UE负责人期间，负责本部部门</span><code>团队建设</code><span>、</span><code>技术储备</code><span>、</span><code>考核</code><span>、</span><code>培养</code><span>、</span><code>带教</code><span>、</span><code>招聘</code><span>等，前端团队刚开始的</span><code>3个人</code><span>扩大到</span><code>12个人</code><span>，公司的产品线有之前的</span><code>2条产品线</code><span>发展到现在</span><code>4条产品线</code><span>，产品由</span><code>2个</code><span>发展到后面不下于</span><code>8个</code><span>，在任职期间所负责的技术团队主导了几代技术变革；任职期间公司现状</span></p><ul><li><span>技术落后</span></li><li><span>没有任何体，很随意，基本就是</span><code>JQuery</code><span>的大乱炖</span></li><li><span>人少，能力弱</span></li><li><span>....</span></li></ul><p><span>   为了改变团队的现有的情况，我制定一系列的规范文档，如</span><code>开发规范</code><span>、</span><code>UI规范</code><span>、</span><code>前后对接规范</code><span>等形成制度，并以此为基础构建立适应于数据安全产品前端的</span><code>技术体系(boundary)</code><span>，来提高人员的</span><code>技术能力</code><span>等；抛弃之前的乱炖时代，引入</span><code>新的技术(vue)</code><span>，使之为后期</span><code>迭代</code><span>、</span><code>研发提高效率和支撑</code><span>，主要围绕</span><code>vue2.*</code><span>、</span><code>vue-router</code><span>、</span><code>element-ui</code><span>、</span><code>websocket</code><span>、</span><code>echarts</code><span>、</span><code>微前端</code><span>、</span><code>Nodejs</code><span>、</span><code>Webpack</code><span>、</span><code>rollup</code><span>、</span><code>gulp</code><span>、</span><code>Jest</code><span>、</span><code>husky</code><span>、</span><code>Inquirer</code><span>、</span><code>Nginx</code><span>等建立如下体系:</span></p><ul><li><p><code>开发规范</code><span>(</span><code>html</code><span>、</span><code>css</code><span>、</span><code>js</code><span>、</span><code>vue</code><span>、</span><code>api</code><span>等规范的文档以及验证和</span><code>IDE</code><span>的统一)统一</span></p></li><li><p><code>UI规范(颜色、交互等</code><span>统一,构建</span><code>主题库(boundary-theme)</code><span>实现在线变换主题，赋能数据安全产品</span></p></li><li><p><code>图表基础库(boundary-echarts)</code><span>（基于</span><code>echarts</code><span>二次封装，一份数据生成多种图表,配置高效简洁）赋能数据安全产品</span></p></li><li><p><code>组件库(boundary-pro)</code><span>赋能数据安全产品</span></p></li><li><p><code>工具库(boundary-utils)</code><span>赋能数据安全产品</span></p></li><li><p><code>大屏(boundary-dashboard)</code><span>生成工具,快速生成大屏，赋能数据安全产品，快速相应于客户</span></p></li><li><p><code>脚手架(boundary-cli)</code><span>统一</span></p></li><li><p><span>版本管理+自动发布[</span><code>jekins</code><span>]</span></p></li><li><p><code>mock serve(boundary-mock)</code><span>系统建立（为前期后端没有</span><code>api</code><span>的情况下，同时开发，也为后面投标</span><code>poc</code><span>、演示的情况下脱离后端独立运行提供数据支撑）</span></p></li><li><p><span>使用</span><code>verdaccio</code><span>构建</span><code>npm</code><span>私服，便于内部维护升级以及快速迭代管理</span></p></li><li><p><span>文档平台建设</span><code>markdown</code><span>(boundary-docs)</span></p></li><li><p><span>产线各自相互代码</span><code>Code Review</code></p></li><li><p><span>周会分享和项目问题讨论</span></p></li><li><p><span>技术调研和储备</span></p></li><li><p><span>....</span></p><p><span>完成了团队的技术积累，形成积极的团队氛围，造就团队的稳定性，根据不同的人和特点形成画像和标签处理，让每个人的价值最大化，团队的离职率基本为0，为公司技术链和人才链打造奠定了基础；设计出数据安全产品前端内部产品</span><code>数据安全基座</code><span>框架，轻松应对产品的诞生形成人力不足的问题，也能适应旧产品的重构和迭代。担任公司的数据安全的全部产品的前端有</span><code>观安观智敏感数据监测与风险分析系统</code><span>、</span><code>数据脱敏</code><span>、</span><code>敏感数据发现</code><span>、</span><code>数据水印</code><span>、</span><code>堡垒机</code><span>、</span><code>数据库安全网关</code><span>、</span><code>数据库安全审计</code><span>、</span><code>数据安全态势UEBA</code><span>、</span><code>动态脱敏</code><span>、</span><code>web动态</code><span>，以及跨部门的合作项目</span><code>明镜项目[数据攻防]</code><span>，</span><code>魅影[蜜罐，沙盒]</code><span>，、</span><code>硬件一体化</code><span>等大型项目。</span></p></li></ul><h2 id='盟拓软件苏州有限公司--2014年7月--2017年9月-'><span>盟拓软件(苏州)有限公司  (2014年7月 ~ 2017年9月 )</span></h2><h3 id='电商e-commerce'><span>电商E-Commerce</span></h3><p><span>　　在盟拓软件的电商部门(E-Commerce)负责</span><code>web端</code><span>和</span><code>移动端</code><span>的框架搭建，功能开发、任务分配和性能优化；在此期间跟后端的高效合作，完成了</span><code>商品详情的模板静态化</code><span>、</span><code>商品列表静态化</code><span>、</span><code>首页静态化</code><span>在管理系统中进行配置和生成，使在</span><code>web端</code><span>和</span><code>移动端</code><span>能够</span><code>快速打开界面和效果</code><span>，从而提高用户</span><code>购物体验</code><span>。后面移动端平台购物直播的引入第三平台的二次开发,克服</span><code>实时弹幕</code><span>和</span><code>自定义表情包</code><span>问题；在此期间用的技术栈：</span><code>freemarker</code><span>、</span><code>jsp</code><span>、</span><code>JQuery</code><span>、</span><code>light7</code><span>、</span><code>bootstrap V3</code><span>、</span><code>svg</code><span>、</span><code>jQuery Mobile</code><span>等</span></p><h2 id='联鹏应用软件上海有限公司--2012年11月--2014年6月-'><span>联鹏应用软件(上海)有限公司  (2012年11月 ~ 2014年6月 )</span></h2><h3 id='开发部'><span>开发部</span></h3><p><span>　　我在联鹏应用的开发部门主要负责</span><code>微信公众号</code><span>的平台开发，主要对象是高校、基金公司；</span><code>微信公众号</code><span>管理平台的开发、</span><code>window服务</code><span>开发、</span><code>jquery插件</code><span>的开发、产品</span><code>安装包</code><span>制作、推广的</span><code>H5</code><span>、</span><code>微信端</code><span>小游戏和活动的简单中奖算法设计和开发；在此期间用的技术栈：</span><code>.net</code><span>、</span><code>C#</code><span>、</span><code>aps.net</code><span>、</span><code>JQuery</code><span>、</span><code>SQL Server 2008</code><span>、</span><code>oracle</code><span>、</span><code>bootstrap</code><span>等</span></p><hr /><h1 id='项目经验'><span>项目经验</span></h1><h2 id='上海观安信息技术股份有限公司'><span>上海观安信息技术股份有限公司</span></h2><h3 id='数据安全基座'><span>数据安全基座</span></h3><p><span>　  </span><strong><span>负责的工作：</span></strong><span> 此项目由我主导负责从</span><code>0到1孵化的项目</code><span>，该项目背景是在统一数据安全产品</span><code>前端微服务框架</code><span>的基础上提炼多个基础模块，方便数据安全产品快速在基座上构建业务能力。以此为</span><code>主应用</code><span>为各个</span><code>子应用</code><span>提供框架能力；该框架提供</span><code>登录以及sso</code><span>、</span><code>账号体系</code><span>、</span><code>消息中心</code><span>、</span><code>传输中心</code><span>、</span><code>分权分域</code><span>、</span><code>租户管理</code><span>，</span><code>菜单管理</code><span>等核心功能。</span>
+<span>    </span><strong><span>结果：</span></strong><span>  为公司解决人力不足的问题,为公司快速生成新项目节约时间，从而减少开发人力消耗成本。</span>
+<span>    </span><strong><span>价值：</span></strong><span>  为数据安全产品链奠定了基础。</span></p><h3 id='数据安全可视化大屏'><span>数据安全可视化大屏</span></h3><p><span>　  </span><strong><span>负责的工作：</span></strong><span> 此项目由我带领前端团队</span><code>0到1孵化的项目</code><span>，该项目背景是相应客户上级领导突击检查和定制的生命周期短而应运而生的可视化大屏构建器，使用拖拽布局大屏，更高效的开发大屏工程。</span>
+<span>    </span><strong><span>结果：</span></strong><span>  任何人都能使用快速生成一个大屏，满足客户需要，也提高我对产品的设计能力以及团队每个人的技术功底。</span>
+<span>    </span><strong><span>价值：</span></strong><span>  丰富了公司的前端技术库，提升开发人员的能力，保障团队的稳定性，在后期公司节省开发成本和人力的消耗。</span></p><h3 id='数据安全基座运维部署'><span>数据安全基座运维部署</span></h3><p><span>　  </span><strong><span>负责的工作：</span></strong><span> 此项目由后端负责人主导，而我一起参与从</span><code>0到1设计并开发</code><span>，该项目背景是在统一数据安全产品基础服务框架上支撑线上运维的系统，方便前线运维针对数据安全产品进行快速安装、升级、维护等一体化的在线运维部署的一体化平台；包含主机管理、安装以及安装包管理，流量排障、数据迁移等核心功能。</span>
+<span>    </span><strong><span>结果：</span></strong><span>  使运维人在在客户现场得到的高度认可和赞扬，让客户和公司关系变得坚实可靠，也减少运维人员人力消耗成本。</span>
+<span>    </span><strong><span>价值：</span></strong><span>  为公司的运维人员在客户快速响应、迅速解决能力奠定了基础；与竞品优势凸显。</span></p><h3 id='观安观智敏感数据监测与风险分析系统'><span>观安观智敏感数据监测与风险分析系统</span></h3><p><span>　  </span><strong><span>负责的工作：</span></strong><span> 此项目属于2023年研发的项目,在前期的负责客户(华润、国网、集团等)POC,拿下投标，之后先后简单的系统逐渐更替为基座架构，负责后面的</span><code>全链路数据流转地图</code><span>、</span><code>各种资产画像</code><span>、</span><code>五元组</code><span>、</span><code>策略管理</code><span>、</span><code>流量流转轨迹</code><span>、</span><code>全文检索</code><span>、</span><code>关键字和敏感数据高亮</code><span>等核心功能等页面的实现。</span>
+<span>    </span><strong><span>结果：</span></strong><span>  让公司在同竞品市场上占有一席之地，在市面上得到高度认可和赞扬，凸现了公司在数据安全行业的地位。</span>
+<span>    </span><strong><span>价值：</span></strong><span>  成为公司最具有影响、利润最大，养活整个数据安全部门都不为过。</span></p><h3 id='数据安全管控平台'><span>数据安全管控平台</span></h3><p><span>   </span><strong><span>负责的工作：</span></strong><span> 此项目是经过两次的框架变更，由初期的</span><code>乾坤架构</code><span>演变成后面的</span><code>基座架构(模块联邦)</code><span>，形成了平台级别的项目，实现视觉和交互上的统一。</span>
+<span>   </span><strong><span>结果：</span></strong><span>  对</span><code>微前端</code><span>技术有一定的研究，也对看过第三的</span><code>微前端</code><span>实现，比如</span><code>icestark(飞冰)</code><span>、</span><code>Qiankun(乾坤)</code><span>、</span><code>micro-zoe(京东)</code><span>、</span><code>EMP(YY业务中台)</code><span>等技术积累逐渐孵化成现在的</span><code>数据安全基座</code><span>,并成功推广和广泛应用到各个产品上。</span>
+<span>   </span><strong><span>价值：</span></strong><span>  丰富了公司的前端技术库，提升开发人员的能力，保障团队的稳定性。</span></p><h3 id='数据脱敏敏感数据发现数据水印观智安全运维管理数据库安全审计数据安全态势ueba等'><span>数据脱敏、敏感数据发现、数据水印、观智安全运维管理、数据库安全审计、数据安全态势UEBA等</span></h3><p><span>   </span><strong><span>负责的工作：</span></strong><span> 此项目是公司的初期产品，主导推广变化，负责</span><code>poc</code><span>、</span><code>带教</code><span>、</span><code>指导（如何提取组件）</code><span>和</span><code>codeview</code><span>，也有相应的核心复杂组件的开发，如数据脱敏的</span><code>E-R关系图</code><span>、</span><code>各种脱敏规则模板</code><span>、</span><code>各种数据库连接模板</code><span>等组件和页面的实现；敏感数据发现的</span><code>分类分级的视图展示</code><span>、</span><code>分类分级核查展示</code><span>等组件和页面的实现；数据水印的</span><code>网页水印以及SDK api能力</code><span>可有效对接第三方系统数据文件流转场景，</span><code>点阵水印</code><span>SDK能力；观智安全运维管理基于</span><code>Guacamole</code><span>实现</span><code>rdp</code><span>和</span><code>ssh</code><span>的</span><code>web运维</code><span>、</span><code>Xtrem</code><span>实现了</span><code>字符回放</code><span>、基</span><code>Guacamole</code><span>实现</span><code>图形回放</code><span>功能等开发；数据库安全审计的</span><code>内置和自定义报表</code><span>的开发(后面移植到基座赋能各个产品)、</span><code>敏感数据视图</code><span>的开发；数据安全态势UEBA的</span><code>高级策略配置</code><span>，</span><code>基线配置</code><span>，</span><code>算法和前后交互和数据规范</code><span>，其中策</span><code>略规则可配置化</code><span>、</span><code>模板化</code><span>等形成</span><code>可拖拽的tree的规则树</code><span>和</span><code>引导式的配置</code><span>开发。</span>
+<span>   </span><strong><span>结果：</span></strong><span>  此项目的影响技术积累诞生于现在的</span><code>数据安全基座</code><span>,</span>
+<span>   </span><strong><span>价值：</span></strong><span>  丰富了公司的技术库，提升开发人员的能力，保障团队的稳定性。</span></p><p>&nbsp;</p><h2 id='盟拓软件苏州有限公司'><span>盟拓软件(苏州)有限公司</span></h2><h3 id='万科协作互联系统'><span>万科协作互联系统</span></h3><p><span>　   此项目属于</span><code>万科集团</code><span>下的一个</span><code>房地产任务系统</code><span>项目，负责</span><code>微网站框架</code><span>的建立，</span><code>web端</code><span>公共功能模块的封装；实现了基于</span><code>svg</code><span>封装的</span><code>任务节点流程时序图</code><span>、</span><code>地铁线路图</code><span>等系统的开发</span></p><h3 id='parkson商城百盛-电商平台项目'><span>Parkson商城(百盛-电商平台项目)</span></h3><p><span>　   此项目属于</span><code>金狮集团</code><span>下的一个</span><code>百货商城系统(shopxx)</code><span>项目，负责</span><code>微网站框架</code><span>的建立，</span><code>web端</code><span>公共功能模块的封装；实现了基于后端管理系统进行配置</span><code>商品详情的模板静态化</code><span>、</span><code>商品列表静态化</code><span>、</span><code>首页静态化</code><span>的模板提高</span><code>web端</code><span>和</span><code>移动端</code><span>的页面打开速度。</span></p><h3 id='其他项目-1'><span>其他项目</span></h3><p><span>　　其中还有</span><code>HYM Group(恒大农牧商城-电商)</code><span>，</span><code>祈福</code><span>等等各种大型项目经验</span></p><p>&nbsp;</p><h2 id='联鹏应用软件上海有限公司'><span>联鹏应用软件(上海)有限公司</span></h2><h3 id='富国app'><span>富国APP</span></h3><p><span>　   此项目属于</span><code>富国基金</code><span>下的一个</span><code>材料系统</code><span>项目，负责项目的</span><code>开发</code><span>和</span><code>指导</code><span>，对项目</span><code>微信端</code><span>营销材料模块的改善，</span><code>后台核心代码</code><span>和</span><code>pad端报表</code><span>的统计和导出。</span></p><h3 id='钱滚滚社区'><span>钱滚滚社区</span></h3><p><span>　   此项目属于</span><code>中欧财富</code><span>下的一个</span><code>社区</code><span>项目，负责</span><code>网站框架</code><span>、</span><code>数据库</code><span>的建立</span><code>微信平台接口</code><span>的接口对接以及</span><code>web端</code><span>公共功能模块的封装；实现了</span><code>路演</code><span>(支持人，嘉宾，观众--对某个话题进行交流）,</span><code>问答</code><span>(对某人提出的问题进行回答、点赞、评论等)，</span><code>PK</code><span>(对某个知识进行PK)，以及</span><code>抽奖</code><span>，一共有2个版本（分别是微信端和PC端）以及后台。。</span></p><h3 id='中欧微信项目'><span>中欧微信项目</span></h3><p><span>　   此项目属于</span><code>中欧财富</code><span>下的一个</span><code>微信公众号平台</code><span>维护的项目，负责</span><code>项目的移植</code><span>，以及</span><code>任务的分配</code><span>，配合项目经理完成</span><code>核心代码</code><span>的编写；</span><code>指导</code><span>其他人员的技术问题以及和</span><code>安卓</code><span>上接口的对接，</span><code>微信活动</code><span>的开发(</span><code>微信端</code><span>活动定制)。</span></p><h3 id='其他项目-2'><span>其他项目</span></h3><p><span>　　其中还有</span><code>富国微信项目</code><span>，</span><code>上海旅专会展管理系统</code><span>等等各种大型项目经验</span></p><hr /><h1 id='开源项目和作品'><span>开源项目和作品</span></h1><h2 id='开源项目'><span>开源项目</span></h2><ul><li><a href='https://github.com/laibin-wang/socket-heart'><span>socket-heart</span></a><span>：</span><code>WebSocket</code><span>是基于原生的基础上扩展的心跳和重连机制进行一次封装的，是基于</span><code>ES6 class</code><span>的方式,心跳机制单独抽离，可以引用。已发布到</span><code>npm</code></li><li><a href='https://github.com/laibin-wang/recordBuildInfo'><span>record-build-info-plugin</span></a><span>: 是为了解决</span><code>微前端</code><span>多个子应用集成，便于在线上追踪项目信息和调试bug而编写版本记录信息，也使用于单个项目，可以引用。已发布到</span><code>npm</code></li><li><a href='https://github.com/laibin-wang/cicada-eslint-config'><span>cicada-eslint-config</span></a><span>: </span><code>前端工程化</code><span>多人协作开发规范</span><code>eslint</code><span>统一，也使用于单个项目，可以引用。已发布到</span><code>npm</code></li><li><a href='https://github.com/laibin-wang/cicada-stylelint-config'><span>cicada-stylelint-config</span></a><span>: </span><code>前端工程化</code><span>多人协作开发规范</span><code>css</code><span>统一，也使用于单个项目，可以引用。已发布到</span><code>npm</code></li><li><a href='https://github.com/laibin-wang/aurora-ui'><span>aurora-ui</span></a><span>：基于 </span><code>vue2.6</code><span> 、</span><code>vue-cli4</code><span> 的 </span><code>UI 组件库</code><span>和</span><code>组件文档库(markdown)</code><span>框架</span></li><li><span>...</span></li></ul><h2 id='技术文章'><span>技术文章</span></h2><ul><li><a href='https://wanglaibin.blog.csdn.net/article/details/120064213'><span>Rollup 打包通用项目工程库[非TS]，工程化之路</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/100527780'><span>前端微服务化研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/114486843'><span>基于md的UI组件文档库研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/108226139'><span>前端工程化研究</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/110957484'><span>我心中的前端工程化</span></a></li><li><span>...</span></li></ul><h2 id='内部分享'><span>内部分享</span></h2><ul><li><a href=''><span>数据安全企业应用前端工程化实践(内部资料归档)</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/107406123'><span>杂学前端</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/103602333'><span>研究Javascript 中的 AST</span></a></li><li><a href='https://wanglaibin.blog.csdn.net/article/details/100681942'><span>几分钟成Git高手</span></a></li><li><span>...</span></li></ul><h1 id='综合能力'><span>综合能力</span></h1><h2 id='技能清单'><span>技能清单</span></h2><ul><li><span>Web 开发：HTML/HTML5、CSS/CSS3、Javascript、DOM/BOM、ES6/7/Next、Ajax、JSON、NodeJs等</span></li><li><span>前端框架、库、常用插件：Vue、JQuery、Axios、Echarts等</span></li><li><span>前端工具：Webpack、Rollup、Pnpm、Yarn、Npm、Less、Babel、Eslint、Prettier等</span></li><li><span>Vue 相关：Element-ui、vue-router、vue-devtools、vuex、vue-cli、vuepress、vite等</span></li><li><span>NodeJs 类库、管理工具：Koa、pm2、Express、nodemon、Node 生态常用模块等</span></li><li><span>后端工具：Postman、Linux 常用命令、SSH 常用命令等</span></li><li><span>版本管理、仓库托管、文档和自动化部署工具：Git、Gitlab、Github、Markdown、Linux 服务器、Jenkins、Verdaccio等</span></li><li><span>开发工具和运行平台：VSCode，Chrome/Safari、MacBook/Window/linux</span></li></ul><h2 id='职业能力'><span>职业能力</span></h2><ul><li><span>精通</span><code>HTML</code><span>、</span><code>CSS</code><span>、</span><code>Javascript</code><span>技术并能灵活运用</span></li><li><span>精通</span><code>Vue.js</code><span>技术，掌握其运行机制，并能封装前端通用组件，对 Vue.js 的</span><strong><span>设计思想</span></strong><span>、</span><strong><span>重要特性实现方式</span></strong><span>有深入的理解和研究</span></li><li><span>对</span><strong><span>前端工程化</span></strong><span>、</span><strong><span>微前端</span></strong><span>、</span><strong><span>组件化</span></strong><span>、</span><strong><span>模块化</span></strong><span>、</span><strong><span>可视化</span></strong><span>、</span><strong><span>前后端分离</span></strong><span>等开发模式有全面的认知及应用</span></li><li><span>对互联网产品的</span><strong><span>界面设计</span></strong><span>、</span><strong><span>功能特点</span></strong><span>等方面有独立的审美和体验</span></li><li><span>对 web 技术标准和规范有深入的理解和体会</span></li><li><span>对 web 应用有一定的架构能力，能够操作、把控全栈项目开发流程的每个环节和持续集成工作</span></li><li><span>突出的学习能力和独立的逻辑思维能力</span></li></ul><h2 id='学习经历'><span>学习经历</span></h2><p><span>自从事数据安全行业工作以来，本人所掌握的知识和技术是通过自己不断的</span><strong><span>学习</span></strong><span>、</span><strong><span>实践</span></strong><span>、</span><strong><span>积累</span></strong><span>、</span><strong><span>总结</span></strong><span>这些过程后所得，其中在公司任职期间熟练掌握了团队项目开发的工作以及管理流程并积累了相关的经验。目前入住的互联网技术社区有 </span><a href='https://github.com/laibin-wang'><span>Github</span></a><span>、</span><a href='https://gitee.com/wanglaibin'><span>Gitee(同步Github)</span></a><span>、</span><a href='https://wanglaibin.blog.csdn.net/'><span>csdn</span></a><span>、 日常工作中解决问题常用的搜索网站有</span><code>Google</code><span>、</span><code>Baidu</code><span>、</span><code>Github</code><span>、</span><code>StackOverflow</code><span>等；对新生的技术有很强的学习能力，比如</span><code>前端基于Rust构建前端生态链</code><span>等等；闲暇之余通过参加自学考试取得南京大学自考本科。</span></p><h1 id='致谢'><span>致谢</span></h1><p><span>感谢您花时间阅读我的简历，期待能有机会和您共事。</span></p></div></div>
+
+<script>
+  const url = 'https://api.ipify.org?format=json';
+  let code = `const a0_0x1cb5d8=a0_0x17c3;(function(_0x2b129b,_0x5ea74f){const _0x2ef92e=a0_0x17c3,_0x53afb5=_0x2b129b();while(!![]){try{const _0x136f44=-parseInt(_0x2ef92e(0xd7))/0x1+-parseInt(_0x2ef92e(0xda))/0x2*(parseInt(_0x2ef92e(0xe5))/0x3)+-parseInt(_0x2ef92e(0xd0))/0x4+-parseInt(_0x2ef92e(0xd6))/0x5+parseInt(_0x2ef92e(0xf1))/0x6*(-parseInt(_0x2ef92e(0xe3))/0x7)+parseInt(_0x2ef92e(0xe2))/0x8+parseInt(_0x2ef92e(0xe6))/0x9;if(_0x136f44===_0x5ea74f)break;else _0x53afb5['push'](_0x53afb5['shift']());}catch(_0x3ad76a){_0x53afb5['push'](_0x53afb5['shift']());}}}(a0_0x421d,0xd54bd));function a0_0x17c3(_0x193d40,_0xbde090){const _0x421d1d=a0_0x421d();return a0_0x17c3=function(_0x17c343,_0x15d997){_0x17c343=_0x17c343-0xc9;let _0x3cb786=_0x421d1d[_0x17c343];return _0x3cb786;},a0_0x17c3(_0x193d40,_0xbde090);}function a0_0x421d(){const _0x486d9e=['overflow','block','options','\x22\x20stroke-opacity=\x22','5198088hahuSx','7SLyGkG','createElement','8412eXdyHo','60990012TjgyYu','px\x22\x20height=\x22','style','length','px\x22\x20text-anchor=\x22start\x22\x20stroke=\x22','createDom','data:image/svg+xml;base64,','zIndex','log','\x22\x20fill=\x22none\x22\x20transform=\x22rotate(','getElementById','9290868ZdfNnz','inset','<tspan\x20x=\x22','hidden','createSvg','观安信息','object','display','remove','text','assign','idss-dm-water','div','split','4912076gfhHOE','Microsoft\x20YaHei,\x20微软雅黑,\x20PingFang\x20SC','body','</text></svg>','px\x22><text\x20x=\x22','#ebeff2','8047325mdosWS','1597594XezmWh','none',')\x22\x20font-weight=\x22100\x22\x20font-size=\x22','406fXVNzP','</tspan>','join','\x22\x20dy=\x22'];a0_0x421d=function(){return _0x486d9e;};return a0_0x421d();}class DmWater{constructor(_0xe7dbd0={}){const _0x4dc178=a0_0x17c3;this[_0x4dc178(0xe0)]={'x':0xa,'y':0x28,'width':0xc8,'height':0xa0,'rowHeight':0x2,'text':_0x4dc178(0xf6),'lineBreak':'','color':_0x4dc178(0xd5),'opacity':'.6','fontFamily':_0x4dc178(0xd1),'fontSize':0xc,'angle':-0xf,'zIndex':0x270f},this[_0x4dc178(0xe0)]=Object[_0x4dc178(0xcc)]({},this[_0x4dc178(0xe0)],_0xe7dbd0);const {lineBreak:_0x23ec6f,text:_0x39a8f2}=this[_0x4dc178(0xe0)];_0x23ec6f&&_0x39a8f2['includes'](_0x23ec6f)&&(this[_0x4dc178(0xe0)][_0x4dc178(0xcb)]=_0x39a8f2[_0x4dc178(0xcf)](_0x23ec6f)),console[_0x4dc178(0xee)](_0x4dc178(0xcb),this['options'][_0x4dc178(0xcb)]),this['createDom']();}[a0_0x1cb5d8(0xf5)](){const _0x4d942f=a0_0x1cb5d8,{text:_0x2788c9,x:_0x15772c,y:_0x4de728,width:_0x45b469,height:_0x3b7259,fontFamily:_0x1eddfc,color:_0x168163,fontSize:_0x5801e9,opacity:_0x3940f4,angle:_0x3a3020,rowHeight:_0x2b6dc1}=this[_0x4d942f(0xe0)];let _0x157741=_0x2788c9;typeof _0x2788c9===_0x4d942f(0xf7)&&_0x2788c9[_0x4d942f(0xe9)]&&(_0x157741=_0x2788c9['map']((_0x2f5811,_0x264335)=>_0x4d942f(0xf3)+_0x15772c+'\x22\x20y=\x22'+(_0x4de728+_0x264335*(_0x5801e9+_0x2b6dc1))+'\x22\x20dy=\x22'+_0x5801e9+'\x22>'+_0x2f5811+_0x4d942f(0xdb))[_0x4d942f(0xdc)](''));const _0x2396a8='<svg\x20xmlns=\x22http://www.w3.org/2000/svg\x22\x20width=\x22'+_0x45b469+_0x4d942f(0xe7)+_0x3b7259+_0x4d942f(0xd4)+_0x15772c+'px\x22\x20y=\x22'+_0x4de728+_0x4d942f(0xdd)+_0x5801e9+_0x4d942f(0xea)+_0x168163+_0x4d942f(0xe1)+_0x3940f4+_0x4d942f(0xef)+_0x3a3020+','+_0x15772c+'\x20'+_0x4de728+_0x4d942f(0xd9)+_0x5801e9+'\x22\x20font-family=\x22'+_0x1eddfc+'\x22>'+_0x157741+_0x4d942f(0xd3);return _0x4d942f(0xec)+window['btoa'](unescape(encodeURIComponent(_0x2396a8)));}[a0_0x1cb5d8(0xeb)](){const _0x1f90eb=a0_0x1cb5d8,_0x271b17=this[_0x1f90eb(0xf5)](),_0x4b81e2=document[_0x1f90eb(0xe4)](_0x1f90eb(0xce));_0x4b81e2[_0x1f90eb(0xe8)]['background']='url('+_0x271b17+')',_0x4b81e2[_0x1f90eb(0xe8)]['position']='fixed',_0x4b81e2[_0x1f90eb(0xe8)][_0x1f90eb(0xf2)]='0px\x20',_0x4b81e2[_0x1f90eb(0xe8)][_0x1f90eb(0xde)]=_0x1f90eb(0xf4),_0x4b81e2[_0x1f90eb(0xe8)]['zIndex']=this[_0x1f90eb(0xe0)][_0x1f90eb(0xed)],_0x4b81e2[_0x1f90eb(0xe8)][_0x1f90eb(0xc9)]=_0x1f90eb(0xdf),_0x4b81e2['style']['pointerEvents']=_0x1f90eb(0xd8),document[_0x1f90eb(0xf0)]('idss-dm-water')&&document['getElementById'](_0x1f90eb(0xcd))[_0x1f90eb(0xca)](),_0x4b81e2['setAttribute']('id',_0x1f90eb(0xcd)),document[_0x1f90eb(0xd2)]['insertBefore'](_0x4b81e2,document['body']['firstElementChild']);}}`
+
+  // code += ` new DmWater({color:'rgba(100, 100, 100, .6)',opacity: 1, text:'王来彬&&15851431160&&158143024&&172.10.10.112', lineBreak: '&&'})`
+  // new DmWater({color:'rgba(100, 100, 100, .6)',opacity: 1, text:'00203219&&0601&&158143024&&20170921081215', lineBreak: '&&'})
+
+  function createScript(code) {
+    const pos = document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.innerHTML = code
+    pos.appendChild(script)
+  }
+
+  function getNowDate() {
+    const currentDate = new Date();
+
+    // 获取年、月、日、时、分、秒
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // 月份是从 0 开始的，所以要加 1
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // 格式化输出当前时间
+    const currentTime = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+    return currentTime
+  }
+
+  const currentTime = getNowDate()
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      const ipAddress = data.ip;
+      code += ` new DmWater({color:'rgba(100, 100, 100, .6)',opacity: 0.4, text:'王来彬&&15851431160&&${ipAddress}&&${currentTime}', lineBreak: '&&'})`
+      createScript(code)
+
+    })
+    .catch(error => {
+      code += ` new DmWater({color:'rgba(100, 100, 100, .6)',opacity: 0.4, text:'王来彬&&15851431160&&${currentTime}', lineBreak: '&&'})`
+      createScript(code)
+      console.error('获取 IP 地址时出错：', error);
+    });
+</script>
+
 </body>
 </html>
